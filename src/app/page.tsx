@@ -1,18 +1,12 @@
 'use client';
 
+import { useAuth } from '@/hooks';
 import { api } from '@/lib/api';
 import { useCallback, useState } from 'react';
 
 export default function Home() {
+  const { githubLogin, googleLogin } = useAuth();
   const [response, setResponse] = useState<string>();
-
-  const handleGithubLogin = useCallback(async () => {
-    window.location.href = 'http://localhost:8081/api/v1/auth/github';
-  }, []);
-
-  const handleGoogleLogin = useCallback(async () => {
-    window.location.href = 'http://localhost:8081/api/v1/auth/google';
-  }, []);
 
   const handleGetProfile = useCallback(async () => {
     const response = await api.get('/profile');
@@ -24,14 +18,14 @@ export default function Home() {
       <div className="flex flex-col gap-4 items-center justify-center">
         <div className="flex gap-4 items-center">
           <button
-            onClick={handleGithubLogin}
+            onClick={githubLogin}
             className="cursor-pointer hover:bg-white hover:text-black transition-all px-6 py-2 rounded border-white border-2"
           >
             Github Login
           </button>
 
           <button
-            onClick={handleGoogleLogin}
+            onClick={googleLogin}
             className="cursor-pointer hover:bg-white hover:text-black transition-all px-6 py-2 rounded border-white border-2"
           >
             Google Login
