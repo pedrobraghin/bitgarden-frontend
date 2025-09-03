@@ -62,7 +62,7 @@ export default function LoginPage() {
           </button>
         </div>
         <pre className="mt-4 text-left max-w-2xl whitespace-pre-wrap">
-          {response ?? 'No profile data'}
+          {response ?? 'No profiles data'}
         </pre>
       </div>
     </div>

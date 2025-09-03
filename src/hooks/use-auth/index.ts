@@ -41,6 +41,11 @@ export function useAuth() {
     window.location.href = await getOAuthUrl('google');
   }, [getOAuthUrl]);
 
+  const logout = useCallback(async () => {
+    setIsLoggedIn(false)
+    await api.get('/auth/logout');
+  }, []);
+
   useEffect(() => {
     void getUser();
   }, [getUser]);
@@ -48,6 +53,7 @@ export function useAuth() {
   return {
     googleLogin,
     githubLogin,
+    logout,
     isLoading,
     isLoggedIn,
     getUser,
