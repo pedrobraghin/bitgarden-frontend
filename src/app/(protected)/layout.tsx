@@ -1,9 +1,9 @@
 'use client';
-import { useAuth } from "@/hooks";
-import { useEffect, ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import {useAuth} from "@/hooks";
+import {useEffect, ReactNode} from "react";
+import {useRouter} from "next/navigation";
 
-export default function ProtectedLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function ProtectedLayout({children}: Readonly<{ children: ReactNode }>) {
   const {
     user, isLoading
   } = useAuth();
@@ -20,5 +20,10 @@ export default function ProtectedLayout({ children }: Readonly<{ children: React
     return null; // change to spinner
   }
 
-  return children;
+
+  return (
+      <div>
+        {children}
+      </div>
+  );
 }
