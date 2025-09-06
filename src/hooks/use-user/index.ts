@@ -1,10 +1,10 @@
-import { useCallback } from 'react';
-import { api } from '@/lib/api';
+import { useCallback } from "react";
+import { api } from "@/lib/api";
 
 export function useUser() {
   const updateUsername = useCallback(async (username: string) => {
     try {
-      await api.patch('/profile', {
+      await api.patch("/user", {
         username,
       });
 
@@ -16,9 +16,7 @@ export function useUser() {
 
   const checkUsernameAvailability = useCallback(async (username: string) => {
     try {
-      const { data } = await api.get(
-        `/profile/username-availability/${username}`
-      );
+      const { data } = await api.get(`/user/username-availability/${username}`);
 
       return data.available;
     } catch {
