@@ -2,8 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks";
-import { useCallback, useState, useEffect } from "react";
-import { api } from "@/lib/api";
+import { useEffect } from "react";
 
 export default function LoginPage() {
   const error = useSearchParams().get("error");
@@ -11,18 +10,11 @@ export default function LoginPage() {
 
   const { githubLogin, googleLogin, isLoading, isLoggedIn } = useAuth();
 
-  const [response, setResponse] = useState<string>();
-
   useEffect(() => {
     if (isLoggedIn) {
       router.replace("/feed");
     }
   }, [isLoggedIn, router]);
-
-  const handleGetProfile = useCallback(async () => {
-    const response = await api.get("/user");
-    setResponse(JSON.stringify(response.data, null, 2));
-  }, []);
 
   if (isLoading) {
     return "Loading..."; // change to spinner
@@ -52,17 +44,7 @@ export default function LoginPage() {
           >
             Google Login
           </button>
-
-          <button
-            onClick={handleGetProfile}
-            className="cursor-pointer hover:bg-white hover:text-black transition-all px-6 py-2 rounded border-white border-2"
-          >
-            Get profile
-          </button>
         </div>
-        <pre className="mt-4 text-left max-w-2xl whitespace-pre-wrap">
-          {response ?? "No profiles data"}
-        </pre>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export function useAuth() {
 
   const getUser = useCallback(async () => {
     try {
-      const { data } = await api.get("/user");
+      const { data } = await api.get("/users/me");
       setUser(data);
       storeUser(data);
       setIsLoggedIn(true);
