@@ -1,33 +1,28 @@
-'use client';
+"use client";
 
 import Link from "next/link";
-import {useAuth} from "@/hooks";
+import { useAuth } from "@/hooks";
+import { Navigate } from "@/components";
 
 export default function Home() {
-  const {logout, isLoggedIn, user, isLoading} = useAuth()
+  const { isLoggedIn, user, isLoading } = useAuth();
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!isLoggedIn) {
-    return (
-        <div>
-          <Link href="/login">
-            Fazer login
-          </Link>
-        </div>
-    )
+  if (isLoggedIn && user) {
+    return <Navigate to="/feed" />;
   }
 
   return (
-      <div>
-        <div className="flex items-center justify-start gap-5">
-          <button onClick={logout} className="cursor-pointer">Sair</button>
-          <Link href={`/profiles/${user?.username}`}>
-            Perfil
-          </Link>
-        </div>
-      </div>
+    <div className="w-screen h-screen flex justify-center items-center">
+      <Link
+        href="/login"
+        className="px-6 py-4 border rounded-lg hover:bg-neutral-400/50 transition-colors"
+      >
+        Fazer login
+      </Link>
+    </div>
   );
 }

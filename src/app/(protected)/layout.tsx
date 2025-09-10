@@ -1,14 +1,16 @@
-'use client';
-import {useAuth} from "@/hooks";
-import {useEffect, ReactNode} from "react";
-import {useRouter} from "next/navigation";
+"use client";
 
-export default function ProtectedLayout({children}: Readonly<{ children: ReactNode }>) {
-  const {
-    user, isLoading
-  } = useAuth();
+import { useAuth } from "@/hooks";
+import { useEffect, ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { Sidebar } from "@/components";
 
-  const router = useRouter()
+export default function ProtectedLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
+  const { user, isLoading } = useAuth();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -20,10 +22,10 @@ export default function ProtectedLayout({children}: Readonly<{ children: ReactNo
     return null; // change to spinner
   }
 
-
   return (
-      <div>
-        {children}
-      </div>
+    <div className="flex">
+      <Sidebar />
+      <main className="min-h-screen w-full">{children}</main>
+    </div>
   );
 }
