@@ -1,3 +1,5 @@
+"use client";
+
 import { api } from "@/lib/api";
 import { useCallback, useEffect, useState } from "react";
 import { User } from "@/@types";
@@ -7,7 +9,7 @@ export function useAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { setUser: storeUser } = useUserStore();
+  const { storeUser } = useUserStore();
 
   const getUser = useCallback(async () => {
     try {
