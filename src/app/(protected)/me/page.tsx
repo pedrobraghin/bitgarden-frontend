@@ -1,11 +1,9 @@
 "use client";
-
-import { useUserStore } from "@/lib/zustand";
-import { ProfileHeader } from "./components";
-import { LinksContainer } from "./components/links-container";
-import { FaGithub, FaLink, FaLinkedin } from "react-icons/fa";
 import { useMemo } from "react";
-import { UpdateUsername } from "@/components";
+import { useUserStore } from "@/lib/zustand";
+import { FaGithub, FaLink, FaLinkedin } from "react-icons/fa";
+
+import { ProfileHeader, LinksContainer } from "./components";
 
 export default function MePage() {
   const { user } = useUserStore();
@@ -37,11 +35,11 @@ export default function MePage() {
           avatarUrl={user.avatarUrl}
           bio={user.profile.bio}
           name={user.name}
+          username={user.username}
           headline={user.profile.headline}
           location={user.profile.location}
         />
         <LinksContainer links={memoizedLinks} />
-        <UpdateUsername />
       </div>
     </div>
   );

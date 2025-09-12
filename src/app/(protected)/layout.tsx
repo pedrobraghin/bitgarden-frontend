@@ -25,7 +25,7 @@ export default function ProtectedLayout({
   return (
     <div className="flex">
       <Sidebar />
-      <main className="min-h-screen w-full">{children}</main>
+      <main className="h-screen w-screen overflow-y-auto">{children}</main>
     </div>
   );
 }
