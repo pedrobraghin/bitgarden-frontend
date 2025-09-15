@@ -4,11 +4,13 @@ import { useAuth } from "@/hooks";
 import { useEffect, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components";
+import { useUserStore } from "@/lib/zustand";
 
 export default function ProtectedLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const { user, isLoading } = useAuth();
+  const { isLoading } = useAuth();
+  const { user } = useUserStore();
 
   const router = useRouter();
 

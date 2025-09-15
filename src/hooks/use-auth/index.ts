@@ -2,28 +2,12 @@
 
 import { api } from "@/lib/api";
 import { useCallback, useEffect, useState } from "react";
-import { User } from "@/@types";
-import { useUserStore } from "@/lib/zustand";
+import { useUser } from "../use-user";
 
 export function useAuth() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { storeUser } = useUserStore();
-
-  const getUser = useCallback(async () => {
-    try {
-      const { data } = await api.get("/users/me");
-      setUser(data);
-      storeUser(data);
-      setIsLoggedIn(true);
-    } catch {
-      setUser(null);
-      setIsLoggedIn(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [storeUser, setIsLoggedIn]);
+  const { fetchUser } = useUser();
 
   const getOAuthUrl = useCallback(async (provider: string) => {
     const response = await api.get("/auth/oauth-url", {
@@ -49,8 +33,8 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
-    void getUser();
-  }, [getUser]);
+    fetchUser().then(() => setIsLoading(false));
+  }, [fetchUser]);
 
   return {
     googleLogin,
@@ -58,7 +42,5 @@ export function useAuth() {
     logout,
     isLoading,
     isLoggedIn,
-    getUser,
-    user,
   };
 }

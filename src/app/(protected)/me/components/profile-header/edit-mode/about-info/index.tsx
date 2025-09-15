@@ -1,6 +1,5 @@
-import { Button, Textarea, TextInput } from "@/components";
-import { useUserStore } from "@/lib/zustand";
-import { CiSaveDown2 } from "react-icons/ci";
+import { Textarea, TextInput } from "@/components";
+import { useEditUserStore, useUserStore } from "@/lib/zustand";
 
 export function AboutInfo() {
   const {
@@ -8,6 +7,7 @@ export function AboutInfo() {
       profile: { headline, bio },
     },
   } = useUserStore();
+  const { setProfileData } = useEditUserStore();
 
   return (
     <div>
@@ -19,6 +19,7 @@ export function AboutInfo() {
           label="Headline"
           defaultValue={headline}
           placeholder="ex.: Dev Backend | Node"
+          onChange={(e) => setProfileData({ headline: e.target.value })}
         />
         <Textarea
           id="bio"
@@ -27,15 +28,7 @@ export function AboutInfo() {
           defaultValue={bio}
           maxLength={200}
           placeholder="ex.: Eu sou João, programador backend nodejs"
-        />
-      </div>
-      <div className="flex justify-end gap-2 mt-4">
-        <Button label="Cancelar" onClick={() => undefined} style="outlined" />
-        <Button
-          label="Salvar"
-          type="confirm"
-          onClick={() => undefined}
-          icon={<CiSaveDown2 size={18} />}
+          onChange={(e) => setProfileData({ bio: e.target.value })}
         />
       </div>
     </div>

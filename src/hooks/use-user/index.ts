@@ -1,33 +1,73 @@
 import { useCallback } from "react";
 import { api } from "@/lib/api";
-import { useUserStore } from "@/lib/zustand";
+import { OriginalData, useEditUserStore, useUserStore } from "@/lib/zustand";
+import { User } from "@/@types";
+import { AxiosResponse } from "axios";
 
 export function useUser() {
   const { storeUser } = useUserStore();
+  const { setStoreInitialData, profileData, userData, setError } =
+    useEditUserStore();
 
-  const refetchUser = useCallback(async () => {
-    try {
-      const { data } = await api.get("/users/me");
-      storeUser(data);
-    } catch {}
-  }, [storeUser]);
-
-  const updateUsername = useCallback(
-    async (username: string) => {
+  const fetchUser = useCallback(
+    async (isRefetch?: boolean) => {
       try {
-        await api.patch("/users", {
-          username,
-        });
+        const { data } = await api.get("/users/me");
 
-        await refetchUser();
+        const profileData = {
+          availableForOpportunities: data.profile.availableForOpportunities,
+          bio: data.profile.bio,
+          githubUrl: data.profile.githubUrl,
+          headline: data.profile.headline,
+          linkedinUrl: data.profile.linkedinUrl,
+          location: data.profile.location,
+          websiteUrl: data.profile.websiteUrl,
+        };
 
-        return true;
+        const userData = {
+          avatarUrl: data.avatarUrl,
+          name: data.name,
+          username: data.username,
+        };
+
+        storeUser(data);
+        if (!isRefetch) {
+          setStoreInitialData({
+            profileData,
+            userData,
+          });
+        }
       } catch {
-        return false;
+        storeUser({} as User);
+        setStoreInitialData({} as OriginalData);
       }
     },
-    [refetchUser]
+    [storeUser, setStoreInitialData]
   );
+
+  const updateUser = useCallback(async () => {
+    try {
+      const promises: Promise<AxiosResponse>[] = [];
+
+      setError("");
+
+      if (Object.keys(userData).length) {
+        promises.push(api.patch("/users", userData));
+      }
+
+      if (Object.keys(profileData).length) {
+        promises.push(api.patch("/profile", profileData));
+      }
+
+      await Promise.all(promises);
+      await fetchUser(true);
+
+      return true;
+    } catch (error) {
+      if (error instanceof Error) setError(error.message);
+      return false;
+    }
+  }, [fetchUser, userData, profileData, setError]);
 
   const checkUsernameAvailability = useCallback(async (username: string) => {
     try {
@@ -42,8 +82,8 @@ export function useUser() {
   }, []);
 
   return {
-    updateUsername,
+    updateUser,
     checkUsernameAvailability,
-    refetchUser,
+    fetchUser,
   };
 }

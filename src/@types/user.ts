@@ -18,4 +18,19 @@ export type PublicUser = {
   name: string;
   username: string;
   avatarUrl: string;
+  headline: string;
+  bio: string;
+  location: string;
+  githubUsername?: string;
+  linkedinUsername?: string;
+  websiteUrl?: string;
+  availableForOpportunities: boolean;
 };
+
+export type EditUser = {
+  name?: string;
+  username?: string;
+  avatarUrl?: string;
+};
+
+export type EditUserFields = keyof EditUser;

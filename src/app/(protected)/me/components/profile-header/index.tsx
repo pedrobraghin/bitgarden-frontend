@@ -22,7 +22,12 @@ export function ProfileHeader() {
   );
 
   if (mode === "edit") {
-    return <EditMode onSave={() => handleChangeMode("view")} />;
+    return (
+      <EditMode
+        onCancel={() => handleChangeMode("view")}
+        onSave={() => handleChangeMode("view")}
+      />
+    );
   }
 
   return <ViewMode onEdit={() => handleChangeMode("edit")} />;

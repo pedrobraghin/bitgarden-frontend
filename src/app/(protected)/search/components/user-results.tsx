@@ -34,7 +34,12 @@ const BaseUserResults = ({ users }: Readonly<UserResultsProps>) => {
             />
 
             <div>
-              <h3>{user.name}</h3>
+              <div className="flex items-center gap-2">
+                <h3>{user.name}</h3>|
+                <span className="text-sm text-neutral-400">
+                  {user.headline}
+                </span>
+              </div>
               <span className="text-sm text-neutral-400">{user.username}</span>
             </div>
           </Link>

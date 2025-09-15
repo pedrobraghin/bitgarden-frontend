@@ -31,14 +31,7 @@ export default function MePage() {
   return (
     <div className="pt-20 pr-20">
       <div className="flex flex-col gap-10 border border-neutral-500/30 rounded-2xl p-10">
-        <ProfileHeader
-          avatarUrl={user.avatarUrl}
-          bio={user.profile.bio}
-          name={user.name}
-          username={user.username}
-          headline={user.profile.headline}
-          location={user.profile.location}
-        />
+        <ProfileHeader />
         <LinksContainer links={memoizedLinks} />
       </div>
     </div>

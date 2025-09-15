@@ -1,6 +1,5 @@
-import { Button, TextInput } from "@/components";
-import { useUserStore } from "@/lib/zustand";
-import { CiSaveDown2 } from "react-icons/ci";
+import { TextInput } from "@/components";
+import { useEditUserStore, useUserStore } from "@/lib/zustand";
 
 export function LocationInfo() {
   const {
@@ -9,6 +8,7 @@ export function LocationInfo() {
     },
   } = useUserStore();
 
+  const { setProfileData } = useEditUserStore();
   return (
     <div>
       <div className="flex flex-col gap-2">
@@ -19,15 +19,7 @@ export function LocationInfo() {
           label="Cidade/Estado"
           defaultValue={location}
           placeholder="ex.: São Paulo/SP"
-        />
-      </div>
-      <div className="flex justify-end gap-2 mt-4">
-        <Button label="Cancelar" onClick={() => undefined} style="outlined" />
-        <Button
-          label="Salvar"
-          type="confirm"
-          onClick={() => undefined}
-          icon={<CiSaveDown2 size={18} />}
+          onChange={(e) => setProfileData({ location: e.target.value })}
         />
       </div>
     </div>
