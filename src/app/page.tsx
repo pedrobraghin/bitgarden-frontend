@@ -3,15 +3,30 @@
 import Link from "next/link";
 import { useAuth } from "@/hooks";
 import { Navigate } from "@/components";
+import { GridLoader } from "react-spinners";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const { isLoggedIn, user, isLoading } = useAuth();
+  const { isLoggedIn, isLoading } = useAuth();
+  const [mounted, setMounted] = useState(false);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
   }
 
-  if (isLoggedIn && user) {
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <GridLoader color="#fff" />
+      </div>
+    );
+  }
+
+  if (isLoggedIn) {
     return <Navigate to="/feed" />;
   }
 

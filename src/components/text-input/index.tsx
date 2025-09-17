@@ -13,6 +13,7 @@ export function TextInput({ label, id, ...props }: TextInputProps) {
       <input
         id={id}
         {...props}
+        autoComplete="off"
         className="w-full rounded-lg border border-neutral-400 px-4 py-2 text-sm placeholder:text-neutral-400 focus:border-neutral-200"
       />
     </div>

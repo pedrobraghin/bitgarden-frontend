@@ -1,17 +1,8 @@
-export interface ProfileHeaderProps {
-  avatarUrl: string;
-  name: string;
-  headline?: string;
-  bio?: string;
-  location?: string;
-  username: string;
-}
-
-export type EditModeProps = ProfileHeaderProps & {
+export type EditModeProps = {
   onSave: () => void;
   onCancel: () => void;
 };
 
-export type ViewModeProps = ProfileHeaderProps & {
+export type ViewModeProps = {
   onEdit: () => void;
 };

@@ -29,7 +29,7 @@ export function Button({
   const typeMap: Record<ButtonTypes, string> = {
     cancel: "bg-red-400/80 hover:bg-red-400/50",
     confirm: "bg-green-400/80 hover:bg-green-400/50",
-    default: "hover:bg-gray-800 ",
+    default: "hover:bg-gray-800 hover:text-slate-400",
   };
 
   return (

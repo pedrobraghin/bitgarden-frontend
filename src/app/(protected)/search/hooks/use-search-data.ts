@@ -35,7 +35,6 @@ export function useSearchData() {
           projects: selectedFilters.projects,
         },
       });
-      console.log(data);
       setSearchResponse(data);
     } catch {
       setIsError(true);

@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/hooks";
 import { useEffect } from "react";
+import { SquareLoader } from "react-spinners";
 
 export default function LoginPage() {
   const error = useSearchParams().get("error");
@@ -16,12 +17,12 @@ export default function LoginPage() {
     }
   }, [isLoggedIn, router]);
 
-  if (isLoading) {
-    return "Loading..."; // change to spinner
-  }
-
-  if (isLoggedIn) {
-    return "Loading..."; // change to spinner
+  if (isLoading || isLoggedIn) {
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <SquareLoader />
+      </div>
+    );
   }
 
   return (

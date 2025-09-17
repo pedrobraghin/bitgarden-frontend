@@ -1,20 +1,34 @@
-import { useState } from "react";
+"use client";
+
+import { useCallback } from "react";
 import { ViewMode } from "./view-mode";
 import { EditMode } from "./edit-mode";
-import { ProfileHeaderProps } from "./types";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export function ProfileHeader(props: Readonly<ProfileHeaderProps>) {
-  const [mode, setMode] = useState<"view" | "edit">("view");
+type Mode = "view" | "edit";
+
+export function ProfileHeader() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const mode = (searchParams.get("mode") as Mode) ?? "view";
+
+  const handleChangeMode = useCallback(
+    (newMode: Mode) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("mode", newMode);
+      router.replace(`?${params.toString()}`);
+    },
+    [searchParams, router]
+  );
 
   if (mode === "edit") {
     return (
       <EditMode
-        {...props}
-        onCancel={() => setMode("view")}
-        onSave={() => setMode("view")}
+        onCancel={() => handleChangeMode("view")}
+        onSave={() => handleChangeMode("view")}
       />
     );
   }
 
-  return <ViewMode {...props} onEdit={() => setMode("edit")} />;
+  return <ViewMode onEdit={() => handleChangeMode("edit")} />;
 }

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ExternalLink, ExternalLinkProps } from "../external-link";
+import { ExternalLink, ExternalLinkProps } from "@/components";
 
 interface LinksContainerProps {
   links: ExternalLinkProps[];

@@ -2,10 +2,8 @@ import Image from "next/image";
 import { MapPin } from "lucide-react";
 import { FaEdit, FaInfo } from "react-icons/fa";
 
-import { ViewModeProps } from "./types";
+import { ViewModeProps } from "../types";
 import { useUserStore } from "@/lib/zustand";
-import { useState } from "react";
-import { PulseLoader } from "react-spinners";
 
 export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
   const {
@@ -15,8 +13,6 @@ export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
       profile: { bio, headline, location },
     },
   } = useUserStore();
-
-  const [loading, setLoading] = useState(false);
 
   return (
     <div className="flex gap-8">
@@ -45,13 +41,9 @@ export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
       </div>
       <div>
         <button
-          className="cursor-pointer flex items-center gap-2 hover:text-neutral-400 transition-colors"
-          onClick={() => {
-            setLoading(true);
-            onEdit();
-          }}
+          className="cursor-pointer hover:text-neutral-400 transition-colors"
+          onClick={onEdit}
         >
-          {loading && <PulseLoader color="#fff" size={8} />}
           <FaEdit size={20} />
         </button>
       </div>
