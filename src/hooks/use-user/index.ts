@@ -37,9 +37,12 @@ export function useUser() {
             userData,
           });
         }
+
+        return true;
       } catch {
         storeUser({} as User);
         setStoreInitialData({} as OriginalData);
+        return false;
       }
     },
     [storeUser, setStoreInitialData]
@@ -56,7 +59,7 @@ export function useUser() {
       }
 
       if (Object.keys(profileData).length) {
-        promises.push(api.patch("/profile", profileData));
+        promises.push(api.patch("/profiles", profileData));
       }
 
       await Promise.all(promises);

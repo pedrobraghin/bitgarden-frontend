@@ -33,7 +33,10 @@ export function useAuth() {
   }, []);
 
   useEffect(() => {
-    fetchUser().then(() => setIsLoading(false));
+    fetchUser().then((success) => {
+      setIsLoggedIn(success);
+      setIsLoading(false);
+    });
   }, [fetchUser]);
 
   return {

@@ -9,16 +9,16 @@ import { useUserStore } from "@/lib/zustand";
 export default function ProtectedLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
-  const { isLoading } = useAuth();
+  const { isLoading, isLoggedIn } = useAuth();
   const { user } = useUserStore();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !user) {
+    if (!isLoading && (!user || !isLoggedIn)) {
       router.replace("/login");
     }
-  }, [isLoading, user, router]);
+  }, [isLoading, isLoggedIn, user, router]);
 
   if (isLoading || (!isLoading && !user)) {
     return null; // change to spinner
