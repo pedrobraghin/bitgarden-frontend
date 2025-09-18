@@ -6,53 +6,53 @@ import { AxiosResponse } from "axios";
 
 export function useUser() {
   const { storeUser } = useUserStore();
-  const { setStoreInitialData, profileData, userData, setError } =
+  const { setStoreInitialData, profileData, userData, setErrors } =
     useEditUserStore();
 
-  const fetchUser = useCallback(
-    async (isRefetch?: boolean) => {
-      try {
-        const { data } = await api.get("/users/me");
+  const fetchUser = useCallback(async () => {
+    try {
+      setErrors({ apiError: [] });
 
-        const profileData = {
-          availableForOpportunities: data.profile.availableForOpportunities,
-          bio: data.profile.bio,
-          githubUrl: data.profile.githubUrl,
-          headline: data.profile.headline,
-          linkedinUrl: data.profile.linkedinUrl,
-          location: data.profile.location,
-          websiteUrl: data.profile.websiteUrl,
-        };
+      const { data } = await api.get("/users/me");
 
-        const userData = {
-          avatarUrl: data.avatarUrl,
-          name: data.name,
-          username: data.username,
-        };
+      const profileData = {
+        availableForOpportunities: data.profile.availableForOpportunities,
+        bio: data.profile.bio,
+        githubUrl: data.profile.githubUrl,
+        headline: data.profile.headline,
+        linkedinUrl: data.profile.linkedinUrl,
+        location: data.profile.location,
+        websiteUrl: data.profile.websiteUrl,
+      };
 
-        storeUser(data);
-        if (!isRefetch) {
-          setStoreInitialData({
-            profileData,
-            userData,
-          });
-        }
+      const userData = {
+        avatarUrl: data.avatarUrl,
+        name: data.name,
+        username: data.username,
+      };
 
-        return true;
-      } catch {
-        storeUser({} as User);
-        setStoreInitialData({} as OriginalData);
-        return false;
-      }
-    },
-    [storeUser, setStoreInitialData]
-  );
+      storeUser(data);
+      setStoreInitialData({
+        profileData,
+        userData,
+      });
+
+      return true;
+    } catch {
+      storeUser({} as User);
+      setStoreInitialData({} as OriginalData);
+      setErrors({
+        apiError: [
+          "Error ao atualizar dados. Tente novamente em alguns segundos",
+        ],
+      });
+      return false;
+    }
+  }, [storeUser, setStoreInitialData, setErrors]);
 
   const updateUser = useCallback(async () => {
     try {
       const promises: Promise<AxiosResponse>[] = [];
-
-      setError("");
 
       if (Object.keys(userData).length) {
         promises.push(api.patch("/users", userData));
@@ -63,30 +63,16 @@ export function useUser() {
       }
 
       await Promise.all(promises);
-      await fetchUser(true);
+      await fetchUser();
 
       return true;
-    } catch (error) {
-      if (error instanceof Error) setError(error.message);
-      return false;
-    }
-  }, [fetchUser, userData, profileData, setError]);
-
-  const checkUsernameAvailability = useCallback(async (username: string) => {
-    try {
-      const { data } = await api.get(
-        `/users/username-availability/${username}`
-      );
-
-      return data.available;
     } catch {
       return false;
     }
-  }, []);
+  }, [fetchUser, userData, profileData]);
 
   return {
     updateUser,
-    checkUsernameAvailability,
     fetchUser,
   };
 }

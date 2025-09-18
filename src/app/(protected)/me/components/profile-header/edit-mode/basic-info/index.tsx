@@ -2,12 +2,17 @@ import Image from "next/image";
 import { CiCamera } from "react-icons/ci";
 import { TextInput } from "@/components";
 import { useEditUserStore, useUserStore } from "@/lib/zustand";
+import { useDebouncedCallback } from "use-debounce";
 
 export function BasicInfo() {
   const {
     user: { avatarUrl, name, username },
   } = useUserStore();
-  const { setUserData } = useEditUserStore();
+  const { setUserData, setUsername, errors } = useEditUserStore();
+
+  const debounced = useDebouncedCallback(async (value: string) => {
+    await setUsername(value);
+  }, 200);
 
   return (
     <div>
@@ -34,14 +39,17 @@ export function BasicInfo() {
             minLength={6}
             onChange={(e) => setUserData({ name: e.target.value })}
           />
-          <TextInput
-            id="username"
-            name="username"
-            label="Nome de usuário"
-            defaultValue={username}
-            placeholder="ex.: jodaodasilva"
-            onChange={(e) => setUserData({ username: e.target.value })}
-          />
+          <div>
+            <TextInput
+              id="username"
+              name="username"
+              label="Nome de usuário"
+              defaultValue={username}
+              placeholder="ex.: jodaodasilva"
+              onChange={(e) => debounced(e.target.value)}
+              errors={errors.username}
+            />
+          </div>
         </div>
       </div>
     </div>

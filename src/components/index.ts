@@ -7,3 +7,4 @@ export { TextInput } from "./text-input";
 export { Textarea } from "./textarea";
 export { Modal } from "./modal";
 export { ExternalLink, type ExternalLinkProps } from "./external-link";
+export { Drawer } from "./drawer";

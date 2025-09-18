@@ -1,27 +1,42 @@
 "use client";
 
 import { useAuth } from "@/hooks";
-import { useEffect, ReactNode } from "react";
+import { useEffect, ReactNode, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components";
 import { useUserStore } from "@/lib/zustand";
+import { GridLoader } from "react-spinners";
 
 export default function ProtectedLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   const { isLoading, isLoggedIn } = useAuth();
   const { user } = useUserStore();
-
   const router = useRouter();
 
+  const [mounted, setMounted] = useState(false);
+  const userExists = Boolean(Object.keys(user).length);
+
   useEffect(() => {
-    if (!isLoading && (!user || !isLoggedIn)) {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isLoading && (!userExists || !isLoggedIn)) {
       router.replace("/login");
     }
-  }, [isLoading, isLoggedIn, user, router]);
+  }, [isLoading, isLoggedIn, userExists, router]);
 
-  if (isLoading || (!isLoading && !user)) {
-    return null; // change to spinner
+  if (!mounted) {
+    return null;
+  }
+
+  if (isLoading || (!isLoading && !userExists)) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <GridLoader color="#fff" />
+      </div>
+    );
   }
 
   return (

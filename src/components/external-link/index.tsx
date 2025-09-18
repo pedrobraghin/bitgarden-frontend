@@ -4,8 +4,8 @@ import { useCallback, useState } from "react";
 export interface ExternalLinkProps {
   url?: string;
   label: string;
-  left?: React.ReactNode;
   withWarning?: boolean;
+  left?: React.ReactNode;
 }
 
 export function ExternalLink({
@@ -17,8 +17,11 @@ export function ExternalLink({
   const [showWarning, setShowWarning] = useState(false);
 
   const openExternalLink = useCallback(() => {
+    if (showWarning) {
+      setShowWarning(false);
+    }
     window.open(url, "_blank");
-  }, [url]);
+  }, [url, showWarning]);
 
   const handleOpenLink = useCallback(() => {
     if (withWarning) {
@@ -31,25 +34,27 @@ export function ExternalLink({
   return (
     <>
       <Modal visible={showWarning}>
-        <div className="flex flex-col gap-2">
-          <span>Você está abrindo um link externo! Deseja continuar? </span>
-          <div className="flex justify-end gap-4">
-            <Button
-              label="Continuar"
-              type="confirm"
-              onClick={openExternalLink}
-            />
-            <Button
-              label="Cancelar"
-              type="cancel"
-              onClick={() => setShowWarning(false)}
-            />
+        <div className="w-screen h-screen flex justify-center items-center">
+          <div className="flex flex-col gap-2 bg-gray-800 p-6 rounded-md">
+            <span>Você está abrindo um link externo! Deseja continuar? </span>
+            <div className="flex justify-end gap-4">
+              <Button
+                label="Continuar"
+                type="confirm"
+                onClick={openExternalLink}
+              />
+              <Button
+                label="Cancelar"
+                type="cancel"
+                onClick={() => setShowWarning(false)}
+              />
+            </div>
           </div>
         </div>
       </Modal>
 
       <button onClick={handleOpenLink}>
-        <div className="flex items-center gap-3 pl-4 pr-6 py-3 border transition-colors border-transparent hover:border-neutral-300/30 rounded-lg">
+        <div className="flex items-center gap-3 pl-4 pr-6 py-3 border transition-colors border-transparent hover:border-neutral-300/30 rounded-lg cursor-pointer">
           {left}
           <span>{label}</span>
         </div>
