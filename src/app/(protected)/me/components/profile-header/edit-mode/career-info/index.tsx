@@ -1,4 +1,4 @@
-import { useUserStore } from "@/lib/zustand";
+import { useEditUserStore, useUserStore } from "@/lib/zustand";
 
 export function CareerInfo() {
   const {
@@ -6,6 +6,7 @@ export function CareerInfo() {
       profile: { availableForOpportunities },
     },
   } = useUserStore();
+  const { setProfileData } = useEditUserStore();
 
   return (
     <div className="flex flex-col gap-2">
@@ -15,6 +16,9 @@ export function CareerInfo() {
           type="checkbox"
           value="available"
           id="available"
+          onChange={(e) =>
+            setProfileData({ availableForOpportunities: e.target.checked })
+          }
           defaultChecked={availableForOpportunities}
           className="appearance-none w-4 h-4 bg-neutral-300/20 focus:ring-neutral-100 checked:bg-neutral-100 focus:ring-2 rounded-sm cursor-pointer"
         />

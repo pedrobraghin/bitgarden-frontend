@@ -9,51 +9,46 @@ export function useUser() {
   const { setStoreInitialData, profileData, userData, setErrors } =
     useEditUserStore();
 
-  const fetchUser = useCallback(
-    async (isRefetch?: boolean) => {
-      try {
-        setErrors({ apiError: [] });
+  const fetchUser = useCallback(async () => {
+    try {
+      setErrors({ apiError: [] });
 
-        const { data } = await api.get("/users/me");
+      const { data } = await api.get("/users/me");
 
-        const profileData = {
-          availableForOpportunities: data.profile.availableForOpportunities,
-          bio: data.profile.bio,
-          githubUrl: data.profile.githubUrl,
-          headline: data.profile.headline,
-          linkedinUrl: data.profile.linkedinUrl,
-          location: data.profile.location,
-          websiteUrl: data.profile.websiteUrl,
-        };
+      const profileData = {
+        availableForOpportunities: data.profile.availableForOpportunities,
+        bio: data.profile.bio,
+        githubUrl: data.profile.githubUrl,
+        headline: data.profile.headline,
+        linkedinUrl: data.profile.linkedinUrl,
+        location: data.profile.location,
+        websiteUrl: data.profile.websiteUrl,
+      };
 
-        const userData = {
-          avatarUrl: data.avatarUrl,
-          name: data.name,
-          username: data.username,
-        };
+      const userData = {
+        avatarUrl: data.avatarUrl,
+        name: data.name,
+        username: data.username,
+      };
 
-        storeUser(data);
-        if (!isRefetch) {
-          setStoreInitialData({
-            profileData,
-            userData,
-          });
-        }
+      storeUser(data);
+      setStoreInitialData({
+        profileData,
+        userData,
+      });
 
-        return true;
-      } catch {
-        storeUser({} as User);
-        setStoreInitialData({} as OriginalData);
-        setErrors({
-          apiError: [
-            "Error ao atualizar dados. Tente novamente em alguns segundos",
-          ],
-        });
-        return false;
-      }
-    },
-    [storeUser, setStoreInitialData, setErrors]
-  );
+      return true;
+    } catch {
+      storeUser({} as User);
+      setStoreInitialData({} as OriginalData);
+      setErrors({
+        apiError: [
+          "Error ao atualizar dados. Tente novamente em alguns segundos",
+        ],
+      });
+      return false;
+    }
+  }, [storeUser, setStoreInitialData, setErrors]);
 
   const updateUser = useCallback(async () => {
     try {
@@ -68,7 +63,7 @@ export function useUser() {
       }
 
       await Promise.all(promises);
-      await fetchUser(true);
+      await fetchUser();
 
       return true;
     } catch {

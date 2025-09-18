@@ -19,7 +19,7 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
 
   const handleFinalize = useCallback(async () => {
     setLoading(true);
-    console.log(hasUnsavedChanges);
+
     if (hasUnsavedChanges) {
       const success = await updateUser();
       if (!success || hasErrors) {
@@ -46,7 +46,7 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex justify-between mb-4">
+      <div className="mb-4">
         <h1 className="text-2xl font-semibold">Editar dados do perfil</h1>
         {hasErrors && (
           <div className="border border-red-400/80 rounded-md px-4 py-2">
@@ -55,21 +55,6 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
             </span>
           </div>
         )}
-        <div className="flex justify-end items-center gap-4">
-          <Button
-            label="Cancelar"
-            type="default"
-            style="outlined"
-            onClick={handleCancel}
-          />
-          <Button
-            label="Finalizar"
-            type="default"
-            onClick={handleFinalize}
-            loading={loading}
-            icon={<CiSaveDown2 size={18} />}
-          />
-        </div>
       </div>
       {/* Informações básicas */}
       <BasicInfo />
@@ -82,6 +67,22 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
 
       {/* Trabalho */}
       <CareerInfo />
+
+      <div className="flex justify-end items-center gap-4">
+        <Button
+          label="Cancelar"
+          type="default"
+          style="outlined"
+          onClick={handleCancel}
+        />
+        <Button
+          label="Finalizar"
+          type="confirm"
+          onClick={handleFinalize}
+          loading={loading}
+          icon={<CiSaveDown2 size={18} />}
+        />
+      </div>
     </div>
   );
 }

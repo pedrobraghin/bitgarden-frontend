@@ -1,26 +1,24 @@
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { FaEdit, FaInfo } from "react-icons/fa";
+import { FaCheckCircle, FaEdit, FaInfo } from "react-icons/fa";
 
 import { ViewModeProps } from "./types";
 import { useUserStore } from "@/lib/zustand";
-import { useState } from "react";
-import { PulseLoader } from "react-spinners";
 
 export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
   const {
     user: {
       avatarUrl,
       name,
-      profile: { bio, headline, location },
+      username,
+      createdAt,
+      profile: { bio, headline, location, availableForOpportunities },
     },
   } = useUserStore();
 
-  const [loading, setLoading] = useState(false);
-
   return (
     <div className="flex gap-8">
-      <div>
+      <div className="flex flex-col items-center justify-center">
         <Image
           className="rounded-full border-2 border-dashed border-neutral-200/50"
           src={avatarUrl}
@@ -29,29 +27,47 @@ export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
           alt={`Foto de ${name}`}
         />
       </div>
-      <div className="flex flex-col flex-1">
-        <div className="mb-4">
-          <h1 className="font-medium text-2xl">{name}</h1>
-          <span className="text-md text-neutral-400">{headline}</span>
+      <div className="flex flex-col flex-1 gap-5">
+        <div>
+          <div className="flex items-center gap-2">
+            <h1 className="font-medium text-xl px-4 py-2 bg-purple-400/50 rounded-md border-white border-l-2">
+              {name}
+            </h1>
+            <div className="border-l-2 border-white pl-4">
+              <span className="text-md">{headline}</span>
+              <div className="text-sm text-neutral-400">
+                <span>{username}</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="text-sm flex items-center gap-2 mb-2">
-          <FaInfo className="w-4" />
-          <span className="text-sm">{bio}</span>
+
+        <div className="text-xs text-neutral-400">
+          <span>Membro desde {new Date(createdAt).toLocaleDateString()}</span>
         </div>
-        <div className="text-sm flex items-center gap-2 text-neutral-400">
-          <MapPin className="w-4" />
-          <span>{location}</span>
+
+        <div className="flex flex-col gap-2">
+          {availableForOpportunities && (
+            <div className="text-sm text-green-600 flex items-center gap-2">
+              <FaCheckCircle />
+              <span>Disponível para contato</span>
+            </div>
+          )}
+          <div className="text-sm flex items-center gap-2">
+            <FaInfo className="w-4" />
+            <span className="text-sm">{bio}</span>
+          </div>
+          <div className="text-sm flex items-center gap-2 text-neutral-400">
+            <MapPin className="w-4" />
+            <span>{location}</span>
+          </div>
         </div>
       </div>
       <div>
         <button
           className="cursor-pointer flex items-center gap-2 hover:text-neutral-400 transition-colors"
-          onClick={() => {
-            setLoading(true);
-            onEdit();
-          }}
+          onClick={onEdit}
         >
-          {loading && <PulseLoader color="#fff" size={8} />}
           <FaEdit size={20} />
         </button>
       </div>
