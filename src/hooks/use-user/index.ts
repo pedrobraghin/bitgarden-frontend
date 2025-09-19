@@ -13,7 +13,7 @@ export function useUser() {
     try {
       setErrors({ apiError: [] });
 
-      const { data } = await api.get("/users/me");
+      const { data } = await api.get<User>("/users/me");
 
       const profileData = {
         availableForOpportunities: data.profile.availableForOpportunities,

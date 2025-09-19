@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { ViewMode } from "./view-mode";
 import { EditMode } from "./edit-mode";
-import { Drawer } from "@/components";
+import { Container, Drawer } from "@/components";
 
 export function ProfileHeader() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
   return (
-    <>
+    <Container>
       <ViewMode onEdit={() => setIsEditingProfile(true)} />
       <Drawer open={isEditingProfile}>
         <div className="p-5">
@@ -19,6 +19,6 @@ export function ProfileHeader() {
           />
         </div>
       </Drawer>
-    </>
+    </Container>
   );
 }

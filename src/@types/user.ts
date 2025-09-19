@@ -6,11 +6,9 @@ export type User = {
   username: string;
   email: string;
   provider: string;
-  providerId: string;
   avatarUrl: string;
   profile: Profile;
   createdAt: string;
-  updatedAt: string;
 };
 
 export type PublicUser = {

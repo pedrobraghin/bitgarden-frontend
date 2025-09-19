@@ -14,7 +14,6 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
   const { hasUnsavedChanges, resetUnsavedChanges, errors } = useEditUserStore();
   const { updateUser } = useUser();
 
-  /* alterar para considerar só erros da api */
   const hasErrors = Boolean(errors.apiError?.length);
 
   const handleFinalize = useCallback(async () => {
