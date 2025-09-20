@@ -5,12 +5,15 @@ import { NavLink } from "./nav-link";
 import { useUserStore } from "@/lib/zustand";
 import Image from "next/image";
 import { FaSearch } from "react-icons/fa";
+import Link from "next/link";
 
 export function Sidebar() {
   const { user } = useUserStore();
   return (
     <div className="p-10 w-60 h-screen flex flex-col justify-between">
-      <div>Foto do perfil</div>
+      <div>
+        <Link href="/">BitGarden</Link>
+      </div>
       <nav className="w-full">
         <ul className="flex flex-col gap-4">
           <li className="w-full">

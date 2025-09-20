@@ -1,24 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { ViewMode } from "./view-mode";
-import { EditMode } from "./edit-mode";
-import { Drawer } from "@/components";
+import { ProfileHeaderViewMode } from "./profile-header-view-mode";
+import { ProfileHeaderEditMode } from "./profile-header-edit-mode";
+import { Button, Container, Drawer } from "@/components";
+import { useUserStore } from "@/lib/zustand";
+import { FaEdit } from "react-icons/fa";
 
 export function ProfileHeader() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const { user } = useUserStore();
 
   return (
-    <>
-      <ViewMode onEdit={() => setIsEditingProfile(true)} />
+    <Container>
+      <div className="flex justify-between">
+        <ProfileHeaderViewMode user={user} />
+        <Button
+          label="Editar"
+          onClick={() => setIsEditingProfile(true)}
+          icon={<FaEdit size={20} />}
+        />
+      </div>
       <Drawer open={isEditingProfile}>
         <div className="p-5">
-          <EditMode
+          <ProfileHeaderEditMode
             onCancel={() => setIsEditingProfile(false)}
             onSave={() => setIsEditingProfile(false)}
           />
         </div>
       </Drawer>
-    </>
+    </Container>
   );
 }

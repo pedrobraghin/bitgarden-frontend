@@ -4,6 +4,7 @@ import {
   EditUserStoreActions,
   Errors,
   OriginalData,
+  ProfileLinks,
 } from "./types";
 import { GetFunction, SetFunction } from "../common";
 import { EditProfile, EditUser } from "@/@types";
@@ -13,11 +14,12 @@ export const editUserActions = (
   get: GetFunction<EditUserStore>
 ): EditUserStoreActions => {
   return {
-    setStoreInitialData: (data: OriginalData) =>
+    setStoreInitialData: (data: OriginalData) => {
       set({
         originalData: data,
         hasUnsavedChanges: false,
-      }),
+      });
+    },
     resetUnsavedChanges: () =>
       set({
         hasUnsavedChanges: false,
@@ -75,6 +77,24 @@ export const editUserActions = (
         profileData: newProfileData,
         hasUnsavedChanges: hasChanges,
       });
+    },
+    setProfileLinks: async (data: ProfileLinks) => {
+      const state = get();
+      try {
+        if (data.githubUrl) {
+          const linkedinPreview = await api.get("/preview", {
+            params: {
+              platform: "github",
+              username: data.githubUrl,
+            },
+          });
+
+          console.log(linkedinPreview);
+        }
+        state.setProfileData(data);
+      } catch {
+        state.setProfileData(data);
+      }
     },
     setUserData: (userData: EditUser) => {
       const state = get();

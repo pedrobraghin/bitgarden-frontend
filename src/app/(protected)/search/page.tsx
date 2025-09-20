@@ -15,6 +15,7 @@ export default function SearchPage() {
     isError,
     isLoading,
     searchResponse,
+    selectedFilters,
   } = useSearchData();
 
   useEffect(() => {
@@ -33,6 +34,8 @@ export default function SearchPage() {
 
         <div>
           <SearchResults
+            showProjects={selectedFilters.all || selectedFilters.projects}
+            showUsers={selectedFilters.all || selectedFilters.users}
             isError={isError}
             isLoading={isLoading}
             projects={searchResponse.projects}

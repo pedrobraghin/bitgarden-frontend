@@ -15,6 +15,10 @@ export type EditUserStoreState = {
   hasUnsavedChanges: boolean;
   errors: Errors;
 };
+export type ProfileLinks = {
+  githubUrl?: EditProfile["githubUrl"];
+  websiteUrl?: EditProfile["websiteUrl"];
+};
 
 export type EditUserStoreActions = {
   setUserData: (data: EditUser) => void;
@@ -23,6 +27,7 @@ export type EditUserStoreActions = {
   setStoreInitialData: (data: OriginalData) => void;
   setUsername: (username: string) => Promise<void>;
   setErrors: (errors: Errors) => void;
+  setProfileLinks: (data: ProfileLinks) => Promise<void>;
 };
 
 export type EditUserStore = EditUserStoreState & EditUserStoreActions;

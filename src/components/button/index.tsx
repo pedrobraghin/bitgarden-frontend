@@ -5,8 +5,8 @@ type ButtonStyles = "outlined" | "default";
 type ButtonTypes = "confirm" | "cancel" | "default";
 
 interface ButtonProps {
-  label: string;
-  onClick: () => void;
+  label?: string;
+  onClick?: () => void;
   style?: ButtonStyles;
   icon?: React.ReactNode;
   type?: ButtonTypes;
@@ -36,7 +36,7 @@ export function Button({
     <button
       onClick={onClick}
       className={twMerge(
-        "px-4 py-2 rounded-lg cursor-pointer text-sm flex items-center gap-2  transition-colors disabled:cursor-wait",
+        "px-4 py-2 rounded-lg cursor-pointer text-sm flex items-center gap-2 h-max  transition-colors disabled:cursor-wait",
         styleMap[style],
         typeMap[type]
       )}

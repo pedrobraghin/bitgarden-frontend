@@ -1,8 +1,10 @@
-export type EditModeProps = {
+import { PublicUser } from "@/@types";
+
+export type ProfileHeaderEditModeProps = {
   onSave: () => void;
   onCancel: () => void;
 };
 
-export type ViewModeProps = {
-  onEdit: () => void;
+export type ProfileHeaderViewModeProps = {
+  user: PublicUser;
 };

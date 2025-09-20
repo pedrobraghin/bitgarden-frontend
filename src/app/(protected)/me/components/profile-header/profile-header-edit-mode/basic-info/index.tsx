@@ -17,14 +17,17 @@ export function BasicInfo() {
   return (
     <div>
       <div className="flex gap-10">
-        <div className="flex items-center justify-center relative -z-10">
-          <button className="absolute top-0 left-4/6 bg-gray-800 rounded-full p-2 border-2 border-neutral-400 cursor-pointer hover:bg-gray-500 transition-colors">
+        <div className="flex items-center justify-center relative">
+          <button
+            className="absolute top-7 left-4/6 bg-gray-800 rounded-full p-2 border-2 border-neutral-400 cursor-pointer hover:bg-gray-500 transition-colors"
+            onClick={() => alert("Alterar foto de perfil")}
+          >
             <CiCamera size={20} />
           </button>
           <Image
             src={avatarUrl}
-            width={150}
-            height={150}
+            width={100}
+            height={100}
             alt={`Foto de ${name}`}
             className="rounded-full border-2 border-dashed border-neutral-200/50"
           />

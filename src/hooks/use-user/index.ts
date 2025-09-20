@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { api } from "@/lib/api";
 import { OriginalData, useEditUserStore, useUserStore } from "@/lib/zustand";
-import { User } from "@/@types";
+import { PublicUser, User } from "@/@types";
 import { AxiosResponse } from "axios";
 
 export function useUser() {
@@ -13,7 +13,7 @@ export function useUser() {
     try {
       setErrors({ apiError: [] });
 
-      const { data } = await api.get("/users/me");
+      const { data } = await api.get<User>("/users/me");
 
       const profileData = {
         availableForOpportunities: data.profile.availableForOpportunities,
@@ -71,8 +71,22 @@ export function useUser() {
     }
   }, [fetchUser, userData, profileData]);
 
+  const searchUserByUsername = useCallback(
+    async (username: string): Promise<PublicUser | null> => {
+      try {
+        const { data } = await api.get<PublicUser>(`/users/${username}`);
+        console.log(username);
+        return data;
+      } catch {
+        return null;
+      }
+    },
+    []
+  );
+
   return {
     updateUser,
     fetchUser,
+    searchUserByUsername,
   };
 }

@@ -6,6 +6,8 @@ export interface SearchResultProps {
   isError: boolean;
   users: PublicUser[];
   projects: Project[];
+  showProjects: boolean;
+  showUsers: boolean;
 }
 
 export interface UserResultsProps {

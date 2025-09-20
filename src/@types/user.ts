@@ -1,4 +1,4 @@
-import { Profile } from "./profile";
+import { Profile, PublicProfile } from "./profile";
 
 export type User = {
   id: string;
@@ -6,11 +6,9 @@ export type User = {
   username: string;
   email: string;
   provider: string;
-  providerId: string;
   avatarUrl: string;
   profile: Profile;
   createdAt: string;
-  updatedAt: string;
 };
 
 export type PublicUser = {
@@ -18,13 +16,8 @@ export type PublicUser = {
   name: string;
   username: string;
   avatarUrl: string;
-  headline: string;
-  bio: string;
-  location: string;
-  githubUsername?: string;
-  linkedinUsername?: string;
-  websiteUrl?: string;
-  availableForOpportunities: boolean;
+  createdAt: string;
+  profile: PublicProfile;
 };
 
 export type EditUser = {

@@ -29,7 +29,7 @@ export function BaseSearchFilter({
           />
           <label
             htmlFor={filter.id}
-            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 cursor-pointer"
+            className="ms-2 text-sm font-medium text-gray-300 cursor-pointer"
           >
             {filter.label}
           </label>
