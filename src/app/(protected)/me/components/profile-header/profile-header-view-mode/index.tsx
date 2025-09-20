@@ -1,20 +1,19 @@
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { FaCheckCircle, FaEdit, FaInfo } from "react-icons/fa";
+import { FaCheckCircle, FaInfo } from "react-icons/fa";
 
-import { ViewModeProps } from "./types";
-import { useUserStore } from "@/lib/zustand";
+import { ProfileHeaderViewModeProps } from "../types";
 
-export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
+export function ProfileHeaderViewMode({
+  user,
+}: Readonly<ProfileHeaderViewModeProps>) {
   const {
-    user: {
-      avatarUrl,
-      name,
-      username,
-      createdAt,
-      profile: { bio, headline, location, availableForOpportunities },
-    },
-  } = useUserStore();
+    avatarUrl,
+    name,
+    username,
+    createdAt,
+    profile: { bio, headline, location, availableForOpportunities },
+  } = user;
 
   return (
     <div className="flex gap-8">
@@ -62,14 +61,6 @@ export function ViewMode({ onEdit }: Readonly<ViewModeProps>) {
             <span>{location}</span>
           </div>
         </div>
-      </div>
-      <div>
-        <button
-          className="cursor-pointer flex items-center gap-2 hover:text-neutral-400 transition-colors"
-          onClick={onEdit}
-        >
-          <FaEdit size={20} />
-        </button>
       </div>
     </div>
   );

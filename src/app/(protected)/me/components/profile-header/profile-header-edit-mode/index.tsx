@@ -1,18 +1,23 @@
-import { EditModeProps } from "../types";
+import { ProfileHeaderEditModeProps } from "../types";
 import { Button } from "@/components";
 import { CiSaveDown2 } from "react-icons/ci";
 import { BasicInfo } from "./basic-info";
 import { AboutInfo } from "./about-info";
 import { LocationInfo } from "./location-info";
 import { CareerInfo } from "./career-info";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useEditUserStore } from "@/lib/zustand";
 import { useUser } from "@/hooks";
 
-export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
+export function ProfileHeaderEditMode({
+  onSave,
+  onCancel,
+}: Readonly<ProfileHeaderEditModeProps>) {
   const [loading, setLoading] = useState(false);
   const { hasUnsavedChanges, resetUnsavedChanges, errors } = useEditUserStore();
   const { updateUser } = useUser();
+
+  const divRef = useRef<HTMLDivElement | null>(null);
 
   const hasErrors = Boolean(errors.apiError?.length);
 
@@ -34,6 +39,15 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
     onCancel();
   }, [onCancel]);
 
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleFinalize();
+      }
+    },
+    [handleFinalize]
+  );
+
   useEffect(() => {
     return () => {
       if (hasUnsavedChanges) {
@@ -43,8 +57,22 @@ export function EditMode({ onSave, onCancel }: Readonly<EditModeProps>) {
     };
   }, [resetUnsavedChanges, hasUnsavedChanges]);
 
+  useEffect(() => {
+    const divElement = divRef.current;
+
+    if (!divElement) {
+      return;
+    }
+
+    divElement.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      divElement.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
   return (
-    <div className="flex flex-col gap-5">
+    <div ref={divRef} className="flex flex-col gap-5">
       <div className="mb-4">
         <h1 className="text-2xl font-semibold">Editar dados do perfil</h1>
         {hasErrors && (

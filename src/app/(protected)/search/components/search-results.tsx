@@ -8,6 +8,8 @@ export function SearchResults({
   projects,
   term,
   users,
+  showProjects,
+  showUsers,
 }: Readonly<SearchResultProps>) {
   if (!term) {
     return (
@@ -39,8 +41,8 @@ export function SearchResults({
 
   return (
     <div className="flex flex-col gap-4">
-      <UserResults users={users} />
-      <ProjectResults projects={projects} />
+      {showUsers && <UserResults users={users} />}
+      {showProjects && <ProjectResults projects={projects} />}
     </div>
   );
 }

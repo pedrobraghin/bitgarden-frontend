@@ -1,4 +1,4 @@
-import { Project, User } from "@/@types";
+import { Project, PublicUser } from "@/@types";
 import { api } from "@/lib/api";
 import { useCallback, useMemo, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -16,7 +16,7 @@ export function useSearchData() {
   const [isError, setIsError] = useState(false);
 
   const [searchResponse, setSearchResponse] = useState<{
-    users: User[];
+    users: PublicUser[];
     projects: Project[];
   }>({
     users: [],
@@ -91,6 +91,7 @@ export function useSearchData() {
     handleSelectFilter,
     term,
     setSearchTerm,
+    selectedFilters,
     filters,
     isLoading,
     isError,
