@@ -50,6 +50,7 @@ export default function ProfilePage() {
   const {
     profile: { githubUrl, linkedinUrl, websiteUrl },
   } = user;
+
   const hasLinks = Boolean(githubUrl || linkedinUrl || websiteUrl);
 
   return (

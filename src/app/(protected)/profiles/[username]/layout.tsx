@@ -1,20 +1,27 @@
+import { PublicUser } from "@/@types";
+import { fetchWithCookies } from "@/utils";
+
 type Props = {
   params: Promise<{ username: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
   const { username } = await params;
-  const res = await fetch(`http://localhost:8081/api/v1/users/${username}`);
-  const user = await res.json();
+
+  const user = await fetchWithCookies<PublicUser>(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/${username}`
+  );
+
+  if (!user) return {};
 
   return {
     title: user.name ?? `Perfil de ${username}`,
-    description: user.bio,
+    description: user.profile.bio,
     openGraph: {
       title: user.name,
-      description: user.bio,
-      url: `https://localhost:3000/profiles/${username}`,
-      siteName: "Bitgarden",
+      description: user.profile.bio,
+      url: `${process.env.NEXT_PUBLIC_BASE_FRONT_URL}/profiles/${username}`,
+      siteName: "BitGarden",
       images: [
         {
           url: user.avatarUrl,

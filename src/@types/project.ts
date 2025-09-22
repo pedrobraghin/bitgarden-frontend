@@ -4,8 +4,14 @@ export type Project = {
   description: string;
   repositoryUrl: string;
   ownerId: string;
+  key: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type CreateProject = {
+  name?: string;
+  description?: string;
 };
 
 export enum ProjectRole {

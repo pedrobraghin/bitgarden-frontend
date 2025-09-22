@@ -9,3 +9,4 @@ export { Modal } from "./modal";
 export { ExternalLink, type ExternalLinkProps } from "./external-link";
 export { Drawer } from "./drawer";
 export { Container } from "./container";
+export { ProjectCard } from "./project-card";

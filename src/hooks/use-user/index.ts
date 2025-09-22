@@ -75,7 +75,6 @@ export function useUser() {
     async (username: string): Promise<PublicUser | null> => {
       try {
         const { data } = await api.get<PublicUser>(`/users/${username}`);
-        console.log(username);
         return data;
       } catch {
         return null;

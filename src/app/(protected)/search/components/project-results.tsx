@@ -1,5 +1,6 @@
 import { memo } from "react";
 import { ProjectResultsProps } from "./types";
+import { ProjectCard } from "@/components";
 
 const BaseProjectResults = ({ projects }: Readonly<ProjectResultsProps>) => {
   if (projects.length === 0) {
@@ -14,21 +15,11 @@ const BaseProjectResults = ({ projects }: Readonly<ProjectResultsProps>) => {
   }
 
   return (
-    <div>
-      <span>Projetos</span>
+    <div className="flex flex-col gap-6">
+      <h2>Projetos</h2>
       <div>
         {projects.map((project) => (
-          <div
-            key={project.id}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-200/50"
-          >
-            <div>
-              <span>{project.name}</span>
-              <span className="line-clamp-2 overflow-ellipsis">
-                {project.description}
-              </span>
-            </div>
-          </div>
+          <ProjectCard key={project.key} project={project} />
         ))}
       </div>
     </div>

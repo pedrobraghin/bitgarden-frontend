@@ -11,6 +11,7 @@ interface ButtonProps {
   icon?: React.ReactNode;
   type?: ButtonTypes;
   loading?: boolean;
+  submit?: "submit";
 }
 
 export function Button({
@@ -20,6 +21,7 @@ export function Button({
   style = "default",
   type = "default",
   loading = false,
+  submit,
 }: Readonly<ButtonProps>) {
   const styleMap: Record<ButtonStyles, string> = {
     outlined: "border-none",
@@ -35,6 +37,7 @@ export function Button({
   return (
     <button
       onClick={onClick}
+      type={submit}
       className={twMerge(
         "px-4 py-2 rounded-lg cursor-pointer text-sm flex items-center gap-2 h-max  transition-colors disabled:cursor-wait",
         styleMap[style],
